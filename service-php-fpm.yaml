@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-php-fpm
+spec:
+  selector:
+    app.kubernetes.io/name: php-fpm-instance
+  ports:
+  - port: 7778
+    targetPort: 9000

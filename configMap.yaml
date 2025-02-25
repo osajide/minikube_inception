@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-php-fpm-cm
+data:
+  php.conf: |
+    server {
+      listen 4242;
+      root /var/www/html;
+      index index.html index.php;
+
+      location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass service-php-fpm:7778;
+      }
+
+      location / {
+        try_files $uri $uri/ =404;
+      }
+    }
+
