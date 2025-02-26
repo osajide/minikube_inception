@@ -10,3 +10,16 @@ spec:
       image: joseeeen/php-fpm:wp.2
       ports:
         - containerPort: 9000
+      volumes:
+        - name: wordpress-files
+          mountPath: /var/www/html
+        - name: init-php-fpm
+          mountPath: /temp/init.sh
+          subPath: init.sh
+  volumes:
+    - name: wordpress-files
+      persistentVolumeClaim:
+        claimName: nginx-php-fpm-pvc
+    - name: init-php-fpm
+      configMap:
+        name: conf

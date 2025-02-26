@@ -1,8 +1,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-php-fpm-cm
+  name: conf
 data:
+
+  DB_USER: db_user
+  DB_HOST: service-mariadb
+  DB_NAME: wp_db
+  WP_URL: wp_url
+  WP_TITLE: wp_title
+  ADMIN_WP_USER: admin
+  ADMIN_WP_EMAIL: admin@admin.com
+
   php.conf: |
     server {
       listen 4242;
@@ -20,3 +29,23 @@ data:
       }
     }
 
+  init.sh: |
+    #!/bin/bash
+
+    set -xe
+
+    while ! mariadb -u $DB_USER -p$DB_PASS -h $DB_HOST -e "use $DB_NAME"; do
+      sleep 2
+    done
+
+    cd /var/www/html
+    mv /temp/wordpress/* .
+    rm -rf /temp/wordpress
+
+    if [ ! -f "/var/www/html/wp-config.php" ]; then
+
+      wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST --allow-root
+      wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$ADMIN_WP_USER --admin_password=$ADMIN_WP_PASS --admin_email=$ADMIN_WP_EMAIL --allow-root
+
+    fi
+    exec php-fpm7.4 -F

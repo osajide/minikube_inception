@@ -14,15 +14,13 @@ spec:
         - name: nginx-conf
           mountPath: /etc/nginx/conf.d/nginxPhpFpm.conf
           subPath: php.conf
-      resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
-        limits:
-          cpu: 500m
-          memory: 128Mi
+        - name: wordpress-files
+          mountPath: /var/www/html
   volumes:
     - name: nginx-conf
       configMap:
-        name: nginx-php-fpm-cm
+        name: conf
+    - name: wordpress-files
+      persistentVolumeClaim:
+        claimName: nginx-php-fpm-pvc
 
