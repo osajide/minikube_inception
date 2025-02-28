@@ -16,10 +16,18 @@ spec:
           subPath: php.conf
         - name: wordpress-files
           mountPath: /var/www/html
+        - name: nginx-conf
+          mountPath: /script/init.sh
+          subPath: init.sh
+      # resources:
+      #   limits:
+      #     memory: 12 Mi
+      #     cpu: 100 m
   volumes:
     - name: nginx-conf
       configMap:
         name: conf
+        defaultMode: 0744
     - name: wordpress-files
       persistentVolumeClaim:
         claimName: nginx-php-fpm-pvc

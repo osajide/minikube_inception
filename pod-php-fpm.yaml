@@ -5,17 +5,6 @@ metadata:
   labels:
     app.kubernetes.io/name: php-fpm-instance
 spec:
-  containers:
-    - name: wphpfpm
-      image: joseeeen/php-fpm:wp.2
-      ports:
-        - containerPort: 9000
-      volumes:
-        - name: wordpress-files
-          mountPath: /var/www/html
-        - name: init-php-fpm
-          mountPath: /temp/init.sh
-          subPath: init.sh
   volumes:
     - name: wordpress-files
       persistentVolumeClaim:
@@ -23,3 +12,16 @@ spec:
     - name: init-php-fpm
       configMap:
         name: conf
+        defaultMode: 0744
+  containers:
+    - name: wphpfpm
+      image: joseeeen/php-fpm:wp.2
+      ports:
+        - containerPort: 9000
+      volumeMounts:
+        - name: wordpress-files
+          mountPath: /var/www/html
+        - name: init-php-fpm
+          mountPath: /temp/init.sh
+          subPath: init.sh
+
