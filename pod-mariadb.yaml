@@ -8,17 +8,25 @@ spec:
   volumes:
     - name: mariadb-data-dir
       persistentVolumeClaim:
-        claimName: mariadb-pvc
+        claimName: pvc-mariadb
     - name: mariadb-init
       configMap:
         name: conf
+        defaultMode: 0777
   containers:
   - name: wpmariadb
     image: mariadb:10.4
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
+    envFrom:
+    - configMapRef:
+        name: conf
+    env:
+    - name: MARIADB_ROOT_PASSWORD
+      value: "1234"
+    - name: DB_PASS
+      valueFrom:
+        secretKeyRef:
+          name: credentials
+          key: DB_PASS
     ports:
       - containerPort: 3306
     volumeMounts:
@@ -27,4 +35,9 @@ spec:
       - name: mariadb-init
         mountPath: /docker-entrypoint-initdb.d/init_db.sh
         subPath: init_db.sh
+    
+    # resources:
+    #   limits:
+    #     memory: "128Mi"
+    #     cpu: "500m"
 

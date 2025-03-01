@@ -1,27 +1,36 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: php-fpm-pod
+  name: pod-php-fpm
   labels:
     app.kubernetes.io/name: php-fpm-instance
 spec:
   volumes:
-    - name: wordpress-files
-      persistentVolumeClaim:
-        claimName: nginx-php-fpm-pvc
-    - name: init-php-fpm
-      configMap:
-        name: conf
-        defaultMode: 0744
+  - name: wordpress-files
+    persistentVolumeClaim:
+      claimName: pvc-nginx-php-fpm
+  - name: init-php-fpm
+    configMap:
+      name: conf
+      defaultMode: 0744
   containers:
-    - name: wphpfpm
-      image: joseeeen/php-fpm:wp.2
-      ports:
-        - containerPort: 9000
-      volumeMounts:
-        - name: wordpress-files
-          mountPath: /var/www/html
-        - name: init-php-fpm
-          mountPath: /temp/init.sh
-          subPath: init.sh
+  - name: wphpfpm
+    image: joseeeen/php-fpm:wp.2
+    command: ['./temp/init.sh']
+    envFrom:
+    - configMapRef:
+        name: conf
+    - secretRef:
+        name: credentials
+    ports:
+      - containerPort: 9000
+    volumeMounts:
+      - name: wordpress-files
+        mountPath: /var/www/html
+      - name: init-php-fpm
+        mountPath: /temp/init.sh
+        subPath: init.sh
+
+
+  # resources:
 
