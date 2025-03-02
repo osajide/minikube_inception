@@ -15,8 +15,9 @@ spec:
       defaultMode: 0744
   containers:
   - name: wphpfpm
-    image: joseeeen/php-fpm:wp.2
-    command: ['./temp/init.sh']
+    # image: joseeeen/php-fpm:wp.2
+    image: ouuss/php-fpm:1
+    # command: ['./temp/init.sh']
     envFrom:
     - configMapRef:
         name: conf
