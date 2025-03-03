@@ -12,7 +12,8 @@ spec:
     - name: mariadb-init
       configMap:
         name: conf
-        defaultMode: 0777
+        # defaultMode: 0777 # script runs by mysql user
+        defaultMode: 0744
   containers:
   - name: wpmariadb
     image: mariadb:10.4
@@ -21,7 +22,10 @@ spec:
         name: conf
     env:
     - name: MARIADB_ROOT_PASSWORD
-      value: "1234"
+      valueFrom:
+        secretKeyRef:
+          name: credentials
+          key: MARIADB_ROOT_PASSWORD
     - name: DB_PASS
       valueFrom:
         secretKeyRef:
@@ -35,9 +39,4 @@ spec:
       - name: mariadb-init
         mountPath: /docker-entrypoint-initdb.d/init_db.sh
         subPath: init_db.sh
-    
-    # resources:
-    #   limits:
-    #     memory: "128Mi"
-    #     cpu: "500m"
 
