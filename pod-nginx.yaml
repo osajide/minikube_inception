@@ -23,10 +23,3 @@ spec:
           subPath: php.conf
         - name: wordpress-files
           mountPath: /var/www/html
-
-
-      # resources:
-      #   limits:
-      #     memory: 120Mi
-      #     cpu: 100m
-

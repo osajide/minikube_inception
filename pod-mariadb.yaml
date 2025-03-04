@@ -12,11 +12,13 @@ spec:
     - name: mariadb-init
       configMap:
         name: conf
-        # defaultMode: 0777 # script runs by mysql user
-        defaultMode: 0744
+        defaultMode: 0777 # script runs by mysql user
+        # defaultMode: 0744
   containers:
   - name: wpmariadb
     image: mariadb:10.4
+    args:
+      - "--bind-address=0.0.0.0"
     envFrom:
     - configMapRef:
         name: conf
