@@ -1,4 +1,4 @@
-# 🏓 Minikube_inception
+# 🕸 Minikube_inception
 
 ## 📌 Project Overview
 
@@ -15,10 +15,6 @@ This project sets up a Kubernetes environment using Minikube, deploying an NGINX
 - Secrets (For credentials such as database passwords)
 
 - Persistent Volume Claims (PVCs) (For data persistence)
-
-## 🏗 Architecture Diagram
-
-![Architecture Diagram](content/)
 
 ## 🚀 Getting Started
 
