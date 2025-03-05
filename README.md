@@ -35,7 +35,8 @@ minikube status
 ```
 
 Make sure you see something like this:
-![Screenshot of terminal running minikube status](content/)
+
+<img width="724" alt="Image" src="https://github.com/user-attachments/assets/a0c9a7f7-22be-4bc4-9265-b4f7e269532b" />
 
 ### 4️⃣ Build
 
@@ -48,6 +49,16 @@ make
 This will apply all manifest files (ConfigMap, Pods ...)
 
 ##### 🔹 Verify Deployment
+
+Run this command:
+
+```bash
+kubectl get pods,services,configmaps,secrets,pvc
+```
+
+You should see something like:
+
+<img width="2353" alt="Image" src="https://github.com/user-attachments/assets/25f15643-4216-4845-8110-6735b4496282" />
 
 
 ## 🎯 Conclusion
