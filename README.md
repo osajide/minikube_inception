@@ -24,7 +24,7 @@ This project sets up a Kubernetes environment using Minikube, deploying an NGINX
 
 ### 1️⃣ Prerequisites
 
-- Minikube (This is a link ...)
+- Minikube [Install Minikube link](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fmacos%2Fx86-64%2Fstable%2Fbinary+download)
 
 ### 2️⃣ Start Minikube
 
@@ -60,5 +60,5 @@ This project was an incredible learning experience! By setting up a Kubernetes M
 
 ## 🔗 References
 
-- Minikube documentation
-- Kubernetes documentation
+- [Minikube documentation](https://minikube.sigs.k8s.io/docs/)
+- [Kubernetes documentation](https://kubernetes.io/docs/home/)
