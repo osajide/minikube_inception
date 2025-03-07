@@ -46,11 +46,23 @@ Make sure you see something like this:
 make
 ```
 
+#### 💡 Alternative: If make is not installed on your machine, you can use the `manage.sh` shell script as an alternative.
+
+Run the following command to see available commands and how to use the script:
+
+```bash
+./manage.sh help
+```
+
+This will display a help message with a list of supported commands and their descriptions:
+
+<img width="1356" alt="Image" src="https://github.com/user-attachments/assets/4d673005-ec34-4803-a6c9-757ff78ebb6b" />
+
 This will apply all manifest files (ConfigMap, Pods ...)
 
 ##### 🔹 Verify Deployment
 
-Run this command:
+- Run this command:
 
 ```bash
 kubectl get pods,services,configmaps,secrets,pvc
@@ -59,6 +71,19 @@ kubectl get pods,services,configmaps,secrets,pvc
 You should see something like:
 
 <img width="2353" alt="Image" src="https://github.com/user-attachments/assets/25f15643-4216-4845-8110-6735b4496282" />
+
+- After that make sure the port forwarding process it running by executing this command:
+
+```bash
+ps
+```
+
+You should see something like:
+
+<img width="1059" alt="Image" src="https://github.com/user-attachments/assets/3dec35b6-5e8c-4c5f-96f7-c9eb4c8d0ce2" />
+
+### 4️⃣ Access wordpress:
+
 
 
 ## 🎯 Conclusion
