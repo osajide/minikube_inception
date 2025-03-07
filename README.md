@@ -46,7 +46,7 @@ Make sure you see something like this:
 make
 ```
 
-#### 💡 Alternative: If make is not installed on your machine, you can use the `manage.sh` shell script as an alternative.
+#### 💡 Alternative: If `make` is not installed on your machine, you can use the `manage.sh` shell script as an alternative.
 
 Run the following command to see available commands and how to use the script:
 
@@ -58,9 +58,9 @@ This will display a help message with a list of supported commands and their des
 
 <img width="1356" alt="Image" src="https://github.com/user-attachments/assets/4d673005-ec34-4803-a6c9-757ff78ebb6b" />
 
-This will apply all manifest files (ConfigMap, Pods ...)
-
 ##### 🔹 Verify Deployment
+
+So after applying all manifests using `make` or `./manage.sh`
 
 - Run this command:
 
@@ -75,16 +75,24 @@ You should see something like:
 - After that make sure the port forwarding process it running by executing this command:
 
 ```bash
-ps
+pgrep -f "kubectl port-forward svc/service-nginx 9999:7777"
 ```
 
 You should see something like:
 
-<img width="1059" alt="Image" src="https://github.com/user-attachments/assets/3dec35b6-5e8c-4c5f-96f7-c9eb4c8d0ce2" />
+<img width="1334" alt="Image" src="https://github.com/user-attachments/assets/aa9b5918-f57b-47f2-9652-995064d48b66" />
 
-### 4️⃣ Access wordpress:
+### 5 Access wordpress:
 
+Once the deployment is complete, the WordPress site can be accessed from:
 
+```bash
+http://127.0.0.1:9999
+```
+
+You'll be able to see:
+
+<img width="1519" alt="Image" src="https://github.com/user-attachments/assets/56f89cd1-8c38-4926-bf6b-510a21b7634c" />
 
 ## 🎯 Conclusion
 
