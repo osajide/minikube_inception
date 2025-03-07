@@ -7,16 +7,20 @@ data:
   DB_USER: db_user
   DB_HOST: service-mariadb
   DB_NAME: wp_db
-  WP_URL: wp_url
+  WP_URL: '127.0.0.1:9999'
   WP_TITLE: wp_title
   ADMIN_WP_USER: admin
   ADMIN_WP_EMAIL: admin@admin.com
 
   php.conf: |
+    log_format custom_format '$remote_addr - [$time_local] "$request" '
+                         '$status $request_uri SCRIPT_FILENAME="$fastcgi_script_name"';
+
+    access_log /var/log/nginx/access.log custom_format;
     server {
       listen 4242;
       root /var/www/html;
-      index index.html index.php;
+      index index.php;
 
       location ~ \.php$ {
         include fastcgi_params;
@@ -25,7 +29,7 @@ data:
       }
 
       location / {
-        try_files $uri $uri/ =404;
+        try_files $uri $uri/ /index.php?$args;
       }
     }
 
@@ -33,22 +37,21 @@ data:
     #!/bin/bash
 
     set -xe
-    echo "********************* hello this is script running *********************"
 
-    # while ! mariadb -u $DB_USER -p$DB_PASS -h $DB_HOST -e "use $DB_NAME"; do
-    #   sleep 2
-    # done
+    while ! mariadb -u $DB_USER -p$DB_PASS -h $DB_HOST -e "use $DB_NAME"; do
+      sleep 2
+    done
 
-    # cd /var/www/html
-    # mv /temp/wordpress/* .
-    # rm -rf /temp/wordpress
+    cd /var/www/html
+    ls
+    rm -rf ./*
+    mv /temp/wordpress/* .
+    rm -rf /temp/wordpress
 
-    # if [ ! -f "/var/www/html/wp-config.php" ]; then
-
-    #   wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST --allow-root
-    #   wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$ADMIN_WP_USER --admin_password=$ADMIN_WP_PASS --admin_email=$ADMIN_WP_EMAIL --allow-root
-
-    # fi
+    if [ ! -f "/var/www/html/wp-config.php" ]; then
+      wp config create --allow-root --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST
+      wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$ADMIN_WP_USER --admin_password=$ADMIN_WP_PASS --admin_email=$ADMIN_WP_EMAIL --allow-root
+    fi
     exec php-fpm8.2 -F
 
   init_db.sh: |

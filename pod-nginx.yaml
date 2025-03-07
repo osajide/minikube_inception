@@ -15,6 +15,12 @@ spec:
   containers:
     - image: nginx:latest
       name: nginxssl
+      env:
+        - name: WP_URL
+          valueFrom:
+            configMapKeyRef:
+              name: conf
+              key: WP_URL
       ports:
         - containerPort: 4242
       volumeMounts:

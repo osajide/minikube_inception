@@ -13,7 +13,6 @@ spec:
       configMap:
         name: conf
         defaultMode: 0777 # script runs by mysql user
-        # defaultMode: 0744
   containers:
   - name: wpmariadb
     image: mariadb:10.4
