@@ -1,4 +1,4 @@
-all:
+run:
 	@kubectl apply -f manifests/mariadb/pvc-mariadb.yaml
 	@kubectl apply -f manifests/shared/pvc-nginx-php-fpm.yaml
 	@kubectl apply -f manifests/mariadb/service-mariadb.yaml
@@ -20,12 +20,12 @@ restart:
 	@kubectl apply -f manifests/php-fpm/pod-php-fpm.yaml
 	@kubectl apply -f manifests/nginx/pod-nginx.yaml
 
-clean:
+stop:
 	@kubectl delete pod pod-mariadb
 	@kubectl delete pod pod-nginx
 	@kubectl delete pod pod-php-fpm
 
-fclean: clean
+fclean: stop
 	@kubectl delete pvc pvc-mariadb
 	@kubectl delete pvc pvc-nginx-php-fpm
 	@kubectl delete configmap conf
@@ -35,7 +35,6 @@ fclean: clean
 	@kubectl delete svc service-nginx
 	@kill $(shell pgrep -f "kubectl port-forward svc/service-nginx 9999:7777")
 
+re: fclean run
 
-re: fclean all
-
-.PHONY: all restart clean fclean re
+.PHONY: run restart stop fclean re
